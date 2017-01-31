@@ -1,2 +1,3 @@
 # yigitsuoglu.github.io
-for photos etc.
+
+Used for sharing photos, reports etc.
