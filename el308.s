@@ -25,6 +25,8 @@ __reset:
         
         ;<<insert more user code here>>
 
+	mov.b WREG, 0x0800
+
 	call	init_PSV
 	call	init_LED
 	call	init_LCD
@@ -41,12 +43,9 @@ check_keypad:
 	bra		check_keypad
 
 	mov		PORTD, W0
-	mov		#0x000F, W1
-	and		W0, W1, W0
-	mov		#psvoffset(lookup), W1
-	mov.b	[W0+W1], W0
-	mov 	#LCD_line2,	W1
-	mov.b	W0, [W1+15]
+;	mov		#0x000F, W1
+;	and		W0, W1, W0
+    mov     W0, PORTF
 	bset	PORTD, #13		; turn the buzzer on
 	
 wait_release:
@@ -57,8 +56,11 @@ wait_release:
 	bra		check_keypad
 
 
-done:
-	bra		done			; Place holder for last line of executed code
+;wait_0:
+;	btsc 	PORTC, #5
+;	bra 	wait_0
+
+;	mov.b 	#'A', WREG0H
 
 ; -----------------------------------------------------
 ; !!!!!!!!!!!!!!!!!! Functions !!!!!!!!!!!!!!!!!!!!!!!!
@@ -199,7 +201,7 @@ __T1Interrupt:
 	mov		LCD_offset, W0
 	btg		W0, #4
 	mov		W0, LCD_offset
-	btg		PORTF, #2
+;	btg		PORTF, #2
 	bra		done_T1interrupt
 send_LCD_data:
 	mov		LCD_offset, W3
